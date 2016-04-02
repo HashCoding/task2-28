@@ -23,12 +23,12 @@ body{
 	background-color: #000;
 }
 #log1{
-	/*position: absolute;*/
+	position: relative;
 	/*width: 100%;*/
 	height: 500px;
 	float: left;
 	border: 1px solid #000;
-	
+	/*overflow:auto;*/
 }
 #control{
 	float: left;
@@ -108,8 +108,13 @@ label{
 		border-color:#eee;
 	}
 	#log{
+		position: absolute;
+		width: 100%;
+		bottom: 0;
+		height: 300px;
 		color: red;
-		overflow:auto;
+		overflow-y:scroll;
+		border-top:1px solid red; 
 	}
 </style>
 </head>
@@ -193,7 +198,7 @@ label{
 							this.destroy=sign_e.destroy;
 						}
 						this.cpu();
-						oLog.innerHTML+=sign_e.id+"号飞船收到命令，"+str+"<br>";
+						oLog.innerHTML+="<p style='color:green;margin:0;'>"+sign_e.id+"号飞船收到命令，"+str+"</p>";
 				}
 			} else {
 				var sign="000"+signal.id;
@@ -271,7 +276,7 @@ label{
 				td3_text=energysystem[i].name;
 			}
 		}
-		oLog.innerHTML+=str+'<br>';
+		oLog.innerHTML+="<p style='color:green;margin:0;'>"+str+'</p>';
 		var that=this;
 		var PI=Math.PI;
 		function createship() {
@@ -419,17 +424,20 @@ label{
 			n++;
 			if (/^\d{8}$/g.test(sign)) {
 				oLog.innerHTML+="传播失败，继续尝试"+n+"次<br>"
+			}else{
+				oLog.innerHTML+="<p style='color:red;margin:0;'>行星接收广播信号失败，继续尝试"+n+"次</p>"
 			}
 			me=Math.random()*100;
 		}
 		if (/^\d{8}$/g.test(sign)) {
-			oLog.innerHTML+="发送成功<br>";
+			oLog.innerHTML+="<p style='color:blue;margin:0;'>向飞船发送命令成功</p>";
 			setTimeout(function () {
 					for (var i = 0; i < ships.length; i++) {
 						ships[i].adapter(sign);
 					}
 			},300);
 		}else{
+			oLog.innerHTML+="<p style='color:blue;margin:0;'>行星接收广播信号成功</p>";
 			setTimeout(function () {
 				excepter(sign);
 			},300);
